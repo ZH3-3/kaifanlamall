@@ -129,21 +129,22 @@ export default {
     // 加载搜索
     updataListRts: async function () {
       let value = this.value;
-      let a1 = 21
-      let a=5
-      a+=5
+      let a1 = 21;
+      let a = 5;
+      a += 5;
       // this.$store.commit("addLength");
       let res = await reqListx(value, a1);
-      this.countData = res.data.subjects.slice(0,a);
-       if(res.data.subjects.length<=a){
-          this.dataList = false;
-        }
+      this.countData = res.data.subjects.slice(0, a);
+      this.textBright();
+      if (res.data.subjects.length <= a) {
+        this.dataList = false;
+      }
       // console.log(this.countData);
     },
     selectBtn: async function () {
-      this.dataList=true
+      this.dataList = true;
       let value = this.value;
-      let a1 = 21
+      let a1 = 21;
       if (value.split(" ").join("").length == 0 || value == undefined) {
         this.$toast.fail("请输入内容");
         return;
@@ -153,24 +154,28 @@ export default {
         if (res.data.subjects == undefined) {
           this.$toast.fail("没有符合的商品");
         } else {
-          this.countData = res.data.subjects.slice(0,5);
-          // console.log(this.countData);
-          this.countData.forEach((element) => {
-            let patt = new RegExp(value, "g");
-            element.name = element.name.replace(
-              patt,
-              `<span style="color: red">${value}</span>`
-            );
-            element.material = element.material.replace(
-              patt,
-              `<span style="color: red">${value}</span>`
-            );
-          });
-        if(res.data.subjects.length<6){
-          this.dataList = false;
-        }
+          this.countData = res.data.subjects.slice(0, 5);
+          this.textBright();
+          if (res.data.subjects.length < 6) {
+            this.dataList = false;
+          }
         }
       }
+    },
+    // 文字高亮
+    textBright() {
+      let value = this.value;
+      this.countData.forEach((element) => {
+        let patt = new RegExp(value, "g");
+        element.name = element.name.replace(
+          patt,
+          `<span style="color: red">${value}</span>`
+        );
+        element.material = element.material.replace(
+          patt,
+          `<span style="color: red">${value}</span>`
+        );
+      });
     },
   },
 };
@@ -195,7 +200,7 @@ export default {
   color: rgb(52, 73, 94);
 }
 .desc {
-  margin-top:10px;
+  margin-top: 10px;
   overflow: hidden;
   overflow-wrap: break-word;
   text-overflow: ellipsis;
