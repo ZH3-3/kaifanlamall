@@ -1,7 +1,6 @@
 <template>
   <div>
     <headers />
-
     <div class="login">
       <h3>登录账户</h3>
       <van-form>

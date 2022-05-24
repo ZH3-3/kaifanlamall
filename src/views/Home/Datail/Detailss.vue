@@ -103,7 +103,7 @@ export default {
             img_lg: this.countDatas.img_lg,
             did:this.countDatas.did,
             mounts:1,
-            checked: false,
+            checked: true,
           }
         this.$store.commit("addList",arr);
         // console.log(this.countData);

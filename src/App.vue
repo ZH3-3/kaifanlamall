@@ -7,7 +7,7 @@
 <script>
 export default {
   name: "App",
-  mounted() {
+  created() {
     //在页面加载时读取localStorage里的状态信息
     localStorage.getItem("userMsg") &&
       this.$store.replaceState(

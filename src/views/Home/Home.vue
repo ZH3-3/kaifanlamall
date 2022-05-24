@@ -24,7 +24,7 @@
           :key="index"
           :price="item.price"
           :thumb="require('../../assets/img/' + item.img_sm)"
-          origin-price="42.00"
+          origin-price="47.00"
           @click="btn1(item.did)"
         >
           <template #title>
@@ -88,7 +88,7 @@ export default {
   components: { Headers, Tails },
   data() {
     return {
-      length: 5,
+      // length: 5,
       value: "",
       listRst: true,
       dataList: true,
@@ -96,19 +96,23 @@ export default {
       countData: [],
     };
   },
+  computed: {
+    length() {
+      return this.$store.state.length;
+    },
+  },
   mounted() {
     this.reqListHome();
+    if (this.length >= 21) {
+      this.dataList = false;
+    }
   },
-  // computed: {
-  //   length() {
-  //     return this.$store.state.length;
-  //   },
-  // },
   methods: {
     async reqListHome() {
       let a1 = this.length;
+      console.log(a1);
       let res = await reqList(a1);
-      console.log(res);
+      // console.log(res);
       this.countData = res.data.subjects;
     },
     btn1($event) {
@@ -117,14 +121,15 @@ export default {
         query: { id: $event },
       });
     },
+    // 加载
     updataList() {
-      // this.$store.commit("addLength");
-      this.length += 5;
+      this.$store.commit("addLength");
+      this.reqListHome();
+      // this.length += 5;
       if (this.length >= 21) {
         this.dataList = false;
       }
       console.log(this.length);
-      this.reqListHome();
     },
     // 加载搜索
     updataListRts: async function () {
@@ -132,7 +137,6 @@ export default {
       let a1 = 21;
       let a = 5;
       a += 5;
-      // this.$store.commit("addLength");
       let res = await reqListx(value, a1);
       this.countData = res.data.subjects.slice(0, a);
       this.textBright();

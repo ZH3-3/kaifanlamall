@@ -6,13 +6,22 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state() {
     return {
-      // length: 5,
+      length: 5,
       isLogin: false,//判断是否登录
       countData: [],//购物车数组
-      payLists:[],//订单数组
+      payLists: [],//订单数组
     }
   },
   mutations: {
+    beginLength(state){
+      state.length=5
+    },
+    addLength(state) {
+      state.length += 5
+      if(state.length>21){
+        state.length=21
+      }
+    },
     //添加数组到购物车
     addList(state, commodity) {
       let flag = false
@@ -63,19 +72,19 @@ export default new Vuex.Store({
       localStorage.setItem("AddCommodity", JSON.stringify(state.countData))
     },
     // 结算商品到订单
-    payList(state,[orderData,userName]) {
+    payList(state, [orderData, userName]) {
       let timer = Date.parse(new Date())
       for (let i = 0; i < orderData.length; i++) {
         let a = {
           img_sm: orderData[i].img_lg,
           did: orderData[i].did,
-          name:userName,
+          name: userName,
           order_time: timer
         }
         state.payLists.unshift(a)
       }
       localStorage.setItem("PayCommodity", JSON.stringify(state.payLists))
-      console.log( state.payLists);
+      console.log(state.payLists);
     }
   },
   actions: {

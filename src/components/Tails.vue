@@ -2,7 +2,8 @@
   <van-sticky>
     <van-tabbar v-model="active" class="footerTab">
       <van-tabbar-item icon="wap-home-o" @click="index1"></van-tabbar-item>
-      <van-tabbar-item icon="cart-o" @click="index3"></van-tabbar-item>
+      <van-tabbar-item icon="cart-o" @click="index3">
+      </van-tabbar-item>
       <van-tabbar-item icon="apps-o" @click="index2"></van-tabbar-item>
       <van-tabbar-item icon="friends-o" @click="index4"></van-tabbar-item>
     </van-tabbar>
@@ -17,6 +18,9 @@ export default {
       active: 0,
     };
   },
+  // updated(){
+  //   this.mount=mount
+  // },
   methods: {
     index1() {
       this.$router.push("/home");
@@ -38,4 +42,5 @@ export default {
 .footerTab {
   border-top: 1px solid rgb(239, 233, 233);
 }
+
 </style>

@@ -6,18 +6,18 @@
       <div class="mainList">
         <table>
           <tr>
-            <th class="th1">编号</th>
+            <th class="th1" >编号</th>
             <th>菜品</th>
             <th>下单时间</th>
             <th class="th2">联系人</th>
           </tr>
-          <tr v-for="(item, index) in hisList" :key="index">
+          <tr v-for="(item, index) in hisList" :key="index" :class="{singleRecord:index%2==0,singleRecord2:index%2!=0}">
             <td>{{ item.did }}</td>
             <td>
               <img :src="require(`.././assets/img/${item.img_sm}`)" alt="" />
             </td>
             <td>{{ Date(item.order_time) | formatDate }}</td>
-            <td>{{ item.name }}</td>
+            <td >{{ item.name }}</td>
           </tr>
         </table>
       </div>
@@ -65,9 +65,6 @@ export default {
       this.deuserState = userState;
       console.log(this.deuserState);
     }
-    // else{
-    //   this.isLogin=false
-    // }
     if (this.deuserState.token == null || this.deuserState.token == undefined) {
       this.isLogin = false;
     }
@@ -122,6 +119,9 @@ div {
   margin: 0 auto; */
   width: 100px;
   height: 70px;
+}
+.singleRecord2{
+  background-color: rgb(237, 241, 242);
 }
 .th1 {
   width: 35px;

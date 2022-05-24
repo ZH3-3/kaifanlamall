@@ -39,9 +39,7 @@
         button-text="提交订单"
         @submit="onPayBtn"
       >
-        <van-checkbox v-model="allChecked" @change="checkAll"
-          >全选</van-checkbox
-        >
+        <van-checkbox v-model="allChecked" @click="checkAll">全选</van-checkbox>
       </van-submit-bar>
     </div>
     <onlogin v-else :mess="mess"></onlogin>
@@ -58,7 +56,7 @@ export default {
   name: "ShoppingCart",
   data() {
     return {
-      mess:"购物车",
+      mess: "购物车",
       totalsPrice: 0, //总价
       isLogin: true,
       allChecked: false, //全选
@@ -83,6 +81,7 @@ export default {
       this.isLogin = false;
     }
 
+    this.checkedAll();
   },
   // computed: {
   // },
@@ -142,25 +141,28 @@ export default {
         message: "删除成功",
         duration: 500,
       });
+      this.checkedAll();
     },
     // 单选
     changeCheck(index) {
       this.$store.commit("changeChecked", index);
       this.computToallPrice();
+      this.checkedAll();
     },
-    // 全选 三元表达式boolean
-    checkAll(e) {
-      e
-        ? this.countData.forEach((item) => {
-            item.checked = true;
-            this.$store.commit("allChecked", item.checked);
-            this.computToallPrice();
-          })
-        : this.countData.forEach((item) => {
-            item.checked = false;
-            this.$store.commit("allChecked", item.checked);
-            this.totalsPrice = 0;
-          });
+    checkAll() {
+      if (this.allChecked === true) {
+        this.countData.forEach((item) => {
+          item.checked = true;
+          this.$store.commit("allChecked", item.checked);
+          this.computToallPrice();
+        });
+      } else {
+        this.countData.forEach((item) => {
+          item.checked = false;
+          this.$store.commit("allChecked", item.checked);
+          this.totalsPrice = 0;
+        });
+      }
     },
     // 计算总价
     computToallPrice() {
@@ -171,6 +173,23 @@ export default {
         }
       });
     },
+    // 按钮控制全选按钮
+    checkedAll() {
+      let flag = true;
+      for (let i = 0; i < this.countData.length; i++) {
+        if (!this.countData[i].checked) {
+          this.allChecked = false;
+          flag = false;
+          return false;
+        }
+      }
+      if (flag) {
+        this.allChecked = true;
+      }
+      if (this.countData.length < 1) {
+        this.allChecked = false;
+      }
+    },
   },
 };
 </script>
@@ -178,8 +197,6 @@ export default {
 <style scoped>
 .cartBox {
   margin: 10px;
-  /* border-right: 1px solid rgb(229, 223, 223);
-  border-left: 1px solid rgb(229, 223, 223); */
 }
 .commodityList {
   margin-bottom: 90px;
@@ -193,10 +210,10 @@ p {
   color: rgb(157, 100, 100);
 }
 
-.btn1{
+.btn1 {
   width: 40px;
   font-size: 18px;
-} 
+}
 .van-card__num {
   font-size: 15px;
 }
@@ -231,10 +248,9 @@ p {
 .van-card__title {
   font-size: 16px;
 }
-.van-card__footer{
+.van-card__footer {
   width: 100%;
   height: 25px;
-  margin-top:3px ;
-
+  margin-top: 3px;
 }
 </style>

@@ -35,6 +35,7 @@ export default {
   methods: {
     btnClick() {
       if (this.value === "跳过") {
+        this.$store.commit("beginLength")
         this.$router.replace("/home");
       }
     },
