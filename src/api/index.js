@@ -27,24 +27,24 @@ export function reqListx(value, a1) {
 }
 
 // 查看订单接口：
-// export function reqList2(mount,begin) {
-//     let length = mount
-//     let start = begin
-//     let param = "start=" + start + "&length=" + length
-//     return requests.post("/orderInfo.php", param)
-// }
+export function reqList2(mount,begin) {
+    let length = mount
+    let start = begin
+    let param = "start=" + start + "&length=" + length
+    return requests.post("/orderInfo.php", param)
+}
 
 // 商品的订单接口
 
-export function reqList3() {
-    let did = ""
-    let tel = ""
-    let uerName = ""
-    let sex = ""
-    let address = ""
-    let param = "did=" + did + "&tel=" + tel + "& uerName=" + uerName + "&sex=" + sex + "&address=" + address
-    return requests.post("/addOrder.php", param)
-}
+// export function reqList3() {
+//     let did = ""
+//     let tel = ""
+//     let userName = ""
+//     let sex = ""
+//     let address = ""
+//     let param = "did=" + did + "&tel=" + tel + "& uerName=" + userName + "&sex=" + sex + "&address=" + address
+//     return requests.post("/addOrder.php", param)
+// }
 
 
 // 登录接口 loginToken.php

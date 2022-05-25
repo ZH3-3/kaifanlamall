@@ -16,8 +16,19 @@
           v-model.trim="userName"
         /><br />
         <label>性别：</label><br />
-        <input type="radio" name="sex" checked="checked" />男士
-        <input type="radio" name="sex" />女士<br />
+        <input
+          v-model.trim="sex"
+          type="radio"
+          name="sex"
+          value="男"
+          checked="checked"
+        />男士
+        <input
+          v-model.trim="sex"
+          type="radio"
+          name="sex"
+          value="女"
+        />女士<br />
         <label>联系电话:</label><br />
         <input
           type="text"
@@ -41,6 +52,7 @@
 
 <script>
 import Tails from "../../../components/Tails.vue";
+import requests from "../../../api/require";
 
 export default {
   components: { Tails },
@@ -48,10 +60,11 @@ export default {
   data() {
     return {
       userName: null,
+      sex: "男",
       userNumber: null,
       userAddress: null,
       a: null,
-      id:null,
+      id: null,
       orderData: [],
     };
   },
@@ -69,7 +82,7 @@ export default {
     // 过滤为true的商品
     dataFilter() {
       let orderDatas = this.orderData.filter((item) => item.checked == true);
-      this.orderData=orderDatas
+      this.orderData = orderDatas;
       console.log(this.orderData);
     },
     onClickLeft() {
@@ -78,11 +91,12 @@ export default {
         query: { id: this.a },
       });
     },
-    sucList() {
+    sucList1() {
       let name = this.userName;
       let address = this.userAddress;
       let number = this.userNumber;
-      let id=[]
+      let sex = this.sex;
+      let id = [];
       if (
         name == null ||
         name == undefined ||
@@ -96,18 +110,64 @@ export default {
       ) {
         this.$toast.fail("内容不能为空");
       } else {
-        this.orderData.forEach(element => {
-          id.push(element.did)
-          this.id=id
+        this.orderData.forEach((element) => {
+          id.push(element.did);
+          this.id = id;
         });
         console.log(this.id);
-        this.$store.commit("cartCommodity")
-        this.$store.commit("payList",[this.orderData,this.userName])
+        this.$store.commit("cartCommodity");
+        // this.$store.commit("payList",[this.orderData,this.userName])
+
         this.$toast.fail("下单成功");
         this.$router.push({
-          path:'/endlist',
-          query:{id:this.id}
+          path: "/endlist",
+          query: { id: this.id },
+        });
+      }
+    },
+    sucList: function () {
+      let userName = this.userName;
+      let address = this.userAddress;
+      let tel = this.userNumber;
+      let sex = this.sex;
+      let id = [];
+      if (
+        userName == null ||
+        userName == undefined ||
+        userName == "" ||
+        tel == null ||
+        tel == undefined ||
+        tel == "" ||
+        address == null ||
+        address == undefined ||
+        address == ""
+      ) {
+        this.$toast.fail("内容不能为空");
+      } else {
+        this.orderData.forEach((element) => {
+          id.push(element.did);
+          this.id = id;
+        });
+        console.log(this.id);
+        this.$store.commit("cartCommodity");
+        // this.$store.commit("payList",[this.orderData,this.userName])
+        for (let i = 0; i < this.orderData.length; i++) {
+        let did = this.orderData[i].did;
+        // let tel = this.userNumber;
+        // let uerName =this.userName;
+        // let sex = this.sex;
+        // let address = this.userAddress;
+        let param = "did=" + did + "&tel=" + tel + "& userName=" + userName + "&sex=" + sex + "&address=" + address
+        requests.post("/addOrder.php", param).then((res)=>{
+          console.log(res);
         })
+      }
+
+        this.$toast.fail("下单成功");
+        this.$router.push({
+          path: "/endlist",
+          query: { id: this.id },
+        });
       }
     },
   },

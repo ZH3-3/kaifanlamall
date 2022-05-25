@@ -2,7 +2,14 @@
   <div>
     <headers />
     <div class="cartBox" v-if="isLogin">
-      <p>购物车</p>
+      <p class="p1">购物车</p>
+      <van-empty
+        image-size="240"
+        description="请先添加商品"
+        image="search"
+        v-if="havelist"
+      >
+      </van-empty>
       <van-card
         v-for="(item, index) in countData"
         :key="index"
@@ -61,6 +68,7 @@ export default {
       isLogin: true,
       allChecked: false, //全选
       deuserState: null,
+      havelist: false,
       countData: [],
     };
   },
@@ -74,13 +82,13 @@ export default {
       this.deuserState = userState;
       console.log(this.deuserState);
     }
-    // else{
-    //   this.isLogin=false
-    // }
+
     if (this.deuserState.token == null || this.deuserState.token == undefined) {
       this.isLogin = false;
     }
-
+    if (this.countData.length < 1) {
+      this.havelist = true;
+    }
     this.checkedAll();
   },
   // computed: {
@@ -97,18 +105,19 @@ export default {
     },
     //提交订单
     onPayBtn() {
-      // console.log(this.countData);
-      this.countData.forEach((item) => {
-        if (item.checked == true) {
+      let flag = true;
+      for (let i = 0; i < this.countData.length; i++) {
+        if (this.countData[i].checked) {
+          flag = false;
           localStorage.setItem("AddCommodity", JSON.stringify(this.countData));
           this.$router.push({
             path: "/newforms",
           });
         }
-        // if (item.checked == false) {
-        //   this.$toast.fail("请先选择要结算的商品");
-        // }
-      });
+      }
+      if (flag) {
+        this.$toast.fail("请您先选择要结算的商品");
+      }
     },
     // 加减计数
     addMount(index) {
@@ -142,6 +151,9 @@ export default {
         duration: 500,
       });
       this.checkedAll();
+      if (this.countData.length < 1) {
+        this.havelist = true;
+      }
     },
     // 单选
     changeCheck(index) {
@@ -199,9 +211,9 @@ export default {
   margin: 10px;
 }
 .commodityList {
-  margin-bottom: 90px;
+  margin-bottom: 110px;
 }
-p {
+.p1 {
   height: 40px;
   line-height: 40px;
   padding-left: 15px;
@@ -232,6 +244,9 @@ p {
 }
 .van-tag--plain {
   background-color: rgb(220, 222, 233);
+}
+div >>>.van-empty__description{
+  font-size: 20px;
 }
 .van-cell {
   padding: 0px;

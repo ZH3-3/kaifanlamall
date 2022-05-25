@@ -72,20 +72,20 @@ export default new Vuex.Store({
       localStorage.setItem("AddCommodity", JSON.stringify(state.countData))
     },
     // 结算商品到订单
-    payList(state, [orderData, userName]) {
-      let timer = Date.parse(new Date())
-      for (let i = 0; i < orderData.length; i++) {
-        let a = {
-          img_sm: orderData[i].img_lg,
-          did: orderData[i].did,
-          name: userName,
-          order_time: timer
-        }
-        state.payLists.unshift(a)
-      }
-      localStorage.setItem("PayCommodity", JSON.stringify(state.payLists))
-      console.log(state.payLists);
-    }
+    // payList(state, [orderData, userName]) {
+    //   let timer = Date.parse(new Date())
+    //   for (let i = 0; i < orderData.length; i++) {
+    //     let a = {
+    //       img_sm: orderData[i].img_lg,
+    //       did: orderData[i].did,
+    //       name: userName,
+    //       order_time: timer
+    //     }
+    //     state.payLists.unshift(a)
+    //   }
+    //   localStorage.setItem("PayCommodity", JSON.stringify(state.payLists))
+    //   console.log(state.payLists);
+    // }
   },
   actions: {
   },
