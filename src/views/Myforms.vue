@@ -134,6 +134,9 @@ div {
   padding-bottom: 6px;
   background-color: rgb(255, 255, 255);
 }
+div >>>.van-empty__description{
+  font-size: 20px;
+}
 .mainList table td {
   font-size: 14px;
   padding: 3px;
