@@ -91,40 +91,40 @@ export default {
         query: { id: this.a },
       });
     },
-    sucList1() {
-      let name = this.userName;
-      let address = this.userAddress;
-      let number = this.userNumber;
-      let sex = this.sex;
-      let id = [];
-      if (
-        name == null ||
-        name == undefined ||
-        name == "" ||
-        number == null ||
-        number == undefined ||
-        number == "" ||
-        address == null ||
-        address == undefined ||
-        address == ""
-      ) {
-        this.$toast.fail("内容不能为空");
-      } else {
-        this.orderData.forEach((element) => {
-          id.push(element.did);
-          this.id = id;
-        });
-        console.log(this.id);
-        this.$store.commit("cartCommodity");
-        // this.$store.commit("payList",[this.orderData,this.userName])
+    // sucList1() {
+    //   let name = this.userName;
+    //   let address = this.userAddress;
+    //   let number = this.userNumber;
+    //   let sex = this.sex;
+    //   let id = [];
+    //   if (
+    //     name == null ||
+    //     name == undefined ||
+    //     name == "" ||
+    //     number == null ||
+    //     number == undefined ||
+    //     number == "" ||
+    //     address == null ||
+    //     address == undefined ||
+    //     address == ""
+    //   ) {
+    //     this.$toast.fail("内容不能为空");
+    //   } else {
+    //     this.orderData.forEach((element) => {
+    //       id.push(element.did);
+    //       this.id = id;
+    //     });
+    //     console.log(this.id);
+    //     this.$store.commit("cartCommodity");
+    //     // this.$store.commit("payList",[this.orderData,this.userName])
 
-        this.$toast.fail("下单成功");
-        this.$router.push({
-          path: "/endlist",
-          query: { id: this.id },
-        });
-      }
-    },
+    //     this.$toast.fail("下单成功");
+    //     this.$router.push({
+    //       path: "/endlist",
+    //       query: { id: this.id },
+    //     });
+    //   }
+    // },
     sucList: function () {
       let userName = this.userName;
       let address = this.userAddress;
@@ -150,19 +150,13 @@ export default {
         });
         console.log(this.id);
         this.$store.commit("cartCommodity");
-        // this.$store.commit("payList",[this.orderData,this.userName])
         for (let i = 0; i < this.orderData.length; i++) {
         let did = this.orderData[i].did;
-        // let tel = this.userNumber;
-        // let uerName =this.userName;
-        // let sex = this.sex;
-        // let address = this.userAddress;
-        let param = "did=" + did + "&tel=" + tel + "& userName=" + userName + "&sex=" + sex + "&address=" + address
+        let param = "did=" + did + "&tel=" + tel + "&userName=" + userName + "&sex=" + sex + "&address=" + address
         requests.post("/addOrder.php", param).then((res)=>{
           console.log(res);
         })
       }
-
         this.$toast.fail("下单成功");
         this.$router.push({
           path: "/endlist",

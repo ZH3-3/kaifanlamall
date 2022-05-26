@@ -23,8 +23,8 @@
             <td>
               <img :src="require(`.././assets/img/${item.img_sm}`)" alt="" />
             </td>
-            <td>{{ Date(item.order_time) | formatDate }}</td>
-            <td>{{ item.user_name}}</td>
+            <td>{{ item.order_time -0| formatDate }}</td>
+            <td>{{ item.user_name }}</td>
           </tr>
         </table>
 
@@ -98,11 +98,29 @@ export default {
       let res = await reqList2(length, start);
       console.log(res);
       this.hisList = res.data.subjects;
+
+      // this.hisList.forEach((item) => {
+      //   //console.log(item.createTime );  log出来为1645332877000
+
+      //   var date = new Date(item.order_time);
+      //   //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      //   let Y = date.getFullYear() + "-";
+      //   let M =
+      //     (date.getMonth() + 1 < 10
+      //       ? "0" + (date.getMonth() + 1)
+      //       : date.getMonth() + 1) + "-";
+      //   let D = date.getDate() + " ";
+      //   let h = date.getHours() + ":";
+      //   let m = date.getMinutes() + ":";
+      //   let s = date.getSeconds();
+      //   //把更改后的日历赋值给item.createTime
+      //   item.order_time = Y + M + D + h + m + s;
+      // });
     },
-    listBtn(){
-      this.start=(this.currentPage-1)*5
+    listBtn() {
+      this.start = (this.currentPage - 1) * 5;
       this.reqListForm();
-    }
+    },
   },
 };
 </script>
@@ -134,7 +152,7 @@ div {
   padding-bottom: 6px;
   background-color: rgb(255, 255, 255);
 }
-div >>>.van-empty__description{
+div >>> .van-empty__description {
   font-size: 20px;
 }
 .mainList table td {
