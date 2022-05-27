@@ -35,6 +35,7 @@
           placeholder="请输入手机号"
           class="newinput"
           v-model.trim="userNumber"
+          ref="phone"
         /><br />
         <label>送餐地址:</label><br />
         <input
@@ -91,40 +92,6 @@ export default {
         query: { id: this.a },
       });
     },
-    // sucList1() {
-    //   let name = this.userName;
-    //   let address = this.userAddress;
-    //   let number = this.userNumber;
-    //   let sex = this.sex;
-    //   let id = [];
-    //   if (
-    //     name == null ||
-    //     name == undefined ||
-    //     name == "" ||
-    //     number == null ||
-    //     number == undefined ||
-    //     number == "" ||
-    //     address == null ||
-    //     address == undefined ||
-    //     address == ""
-    //   ) {
-    //     this.$toast.fail("内容不能为空");
-    //   } else {
-    //     this.orderData.forEach((element) => {
-    //       id.push(element.did);
-    //       this.id = id;
-    //     });
-    //     console.log(this.id);
-    //     this.$store.commit("cartCommodity");
-    //     // this.$store.commit("payList",[this.orderData,this.userName])
-
-    //     this.$toast.fail("下单成功");
-    //     this.$router.push({
-    //       path: "/endlist",
-    //       query: { id: this.id },
-    //     });
-    //   }
-    // },
     sucList: function () {
       let userName = this.userName;
       let address = this.userAddress;
@@ -144,24 +111,40 @@ export default {
       ) {
         this.$toast.fail("内容不能为空");
       } else {
-        this.orderData.forEach((element) => {
-          id.push(element.did);
-          this.id = id;
-        });
-        console.log(this.id);
-        this.$store.commit("cartCommodity");
-        for (let i = 0; i < this.orderData.length; i++) {
-        let did = this.orderData[i].did;
-        let param = "did=" + did + "&tel=" + tel + "&userName=" + userName + "&sex=" + sex + "&address=" + address
-        requests.post("/addOrder.php", param).then((res)=>{
-          console.log(res);
-        })
-      }
-        this.$toast.fail("下单成功");
-        this.$router.push({
-          path: "/endlist",
-          query: { id: this.id },
-        });
+        let phoneReg = /^[1][3,4,5,7,8,8][0-9]{9}$/;
+        if (phoneReg.test(tel)) {
+            this.orderData.forEach((element) => {
+            id.push(element.did);
+            this.id = id;
+          });
+          // console.log(this.id);
+          this.$store.commit("cartCommodity");
+          for (let i = 0; i < this.orderData.length; i++) {
+            let did = this.orderData[i].did;
+            let param =
+              "did=" +
+              did +
+              "&tel=" +
+              tel +
+              "&userName=" +
+              userName +
+              "&sex=" +
+              sex +
+              "&address=" +
+              address;
+            requests.post("/addOrder.php", param).then((res) => {
+              console.log(res);
+            });
+          }
+          this.$toast.fail("下单成功");
+          this.$router.push({
+            path: "/endlist",
+            query: { id: this.id },
+          });
+        }else{
+          this.$toast.fail("请输入正确的手机号");
+          this.$refs.phone.focus()
+        }
       }
     },
   },
@@ -190,7 +173,7 @@ export default {
   border: 1px solid rgb(222, 222, 222);
   margin: 0;
   width: 100%;
-  height: 100px;
+  height: 150px;
 }
 .van-nav-bar__title {
   font-size: 20px !important;
